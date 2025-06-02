@@ -6,6 +6,8 @@
     let numDecks = 8;
     let cardTrack = [];
     const cards = ["A",2,3,4,5,6,7,8,9,10,"J","Q","K"];
+    let dealerHand = -1;
+    let playerHand = [];
 
     function createDeck() {
         for (let i = 0; i < 13; i++) {
@@ -22,30 +24,93 @@
         console.log(cardArray)
     }
 
+    function addDealerCard(index) {
+        removeCard(index);
+        dealerHand = index;
+        console.log(dealerHand);
+    }
+
+    function addPlayerCard(index) {
+        removeCard(index);
+        playerHand.push(index);
+    }
+
+    function returnCard(index) {
+        if (index == 0) {
+            return "A";
+        }
+        if (index == 10) {
+            return "J";
+        }
+        if (index == 11) {
+            return "Q";
+        }
+        if (index == 12) {
+            return "K";
+        }
+    }
+
     createDeck();
     console.log(cardArray);
     console.log(cardTrack);
 </script>
 
 <h1>Card Calculator</h1>
+<h2>Hand</h2>
+<h3>Dealer</h3>
+<div class="suitRow">
+    <div class="card">{dealerHand}</div>
+</div>
+<div class="suitRow">
+    <button onclick={() => addDealerCard(0)} class="card">A</button>
+    <button onclick={() => addDealerCard(1)} class="card">2</button>
+    <button onclick={() => addDealerCard(2)} class="card">3</button>
+    <button onclick={() => addDealerCard(3)} class="card">4</button>
+    <button onclick={() => addDealerCard(4)} class="card">5</button>
+    <button onclick={() => addDealerCard(5)} class="card">6</button>
+    <button onclick={() => addDealerCard(6)} class="card">7</button>
+    <button onclick={() => addDealerCard(7)} class="card">8</button>
+    <button onclick={() => addDealerCard(8)} class="card">9</button>
+    <button onclick={() => addDealerCard(9)} class="card">10</button>
+    <button onclick={() => addDealerCard(10)} class="card">J</button>
+    <button onclick={() => addDealerCard(11)} class="card">Q</button>
+    <button onclick={() => addDealerCard(12)} class="card">K</button>
+</div>
+<h3>Player</h3>
+<div class="suitRow">
+    <button onclick={() => addPlayerCard(0)} class="card">A</button>
+    <button onclick={() => addPlayerCard(1)} class="card">2</button>
+    <button onclick={() => addPlayerCard(2)} class="card">3</button>
+    <button onclick={() => addPlayerCard(3)} class="card">4</button>
+    <button onclick={() => addPlayerCard(4)} class="card">5</button>
+    <button onclick={() => addPlayerCard(5)} class="card">6</button>
+    <button onclick={() => addPlayerCard(6)} class="card">7</button>
+    <button onclick={() => addPlayerCard(7)} class="card">8</button>
+    <button onclick={() => addPlayerCard(8)} class="card">9</button>
+    <button onclick={() => addPlayerCard(9)} class="card">10</button>
+    <button onclick={() => addPlayerCard(10)} class="card">J</button>
+    <button onclick={() => addPlayerCard(11)} class="card">Q</button>
+    <button onclick={() => addPlayerCard(12)} class="card">K</button>
+</div>
 
-    <div class="suitRow">
-        <button onclick={() => removeCard(0)} class="card">A</button>
-        <button onclick={() => removeCard(1)} class="card">2</button>
-        <button onclick={() => removeCard(2)} class="card">3</button>
-        <button onclick={() => removeCard(3)} class="card">4</button>
-        <button onclick={() => removeCard(4)} class="card">5</button>
-        <button onclick={() => removeCard(5)} class="card">6</button>
-        <button onclick={() => removeCard(6)} class="card">7</button>
-        <button onclick={() => removeCard(7)} class="card">8</button>
-        <button onclick={() => removeCard(8)} class="card">9</button>
-        <button onclick={() => removeCard(9)} class="card">10</button>
-        <button onclick={() => removeCard(10)} class="card">J</button>
-        <button onclick={() => removeCard(11)} class="card">Q</button>
-        <button onclick={() => removeCard(12)} class="card">K</button>
-    </div>
 
-<button onclick={() => removeCard(0)}>Reset</button>
+<h2>Remaining Cards</h2>
+
+<div class="suitRow">
+    <button onclick={() => removeCard(0)} class="card">A</button>
+    <button onclick={() => removeCard(1)} class="card">2</button>
+    <button onclick={() => removeCard(2)} class="card">3</button>
+    <button onclick={() => removeCard(3)} class="card">4</button>
+    <button onclick={() => removeCard(4)} class="card">5</button>
+    <button onclick={() => removeCard(5)} class="card">6</button>
+    <button onclick={() => removeCard(6)} class="card">7</button>
+    <button onclick={() => removeCard(7)} class="card">8</button>
+    <button onclick={() => removeCard(8)} class="card">9</button>
+    <button onclick={() => removeCard(9)} class="card">10</button>
+    <button onclick={() => removeCard(10)} class="card">J</button>
+    <button onclick={() => removeCard(11)} class="card">Q</button>
+    <button onclick={() => removeCard(12)} class="card">K</button>
+</div>
 
 <div class="cardGrid">
     {#each cardTrack as cardNumber}
