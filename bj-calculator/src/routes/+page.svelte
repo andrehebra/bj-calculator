@@ -3,7 +3,7 @@
     //      ["A",2,3,4,5,6,7,8,9,10,"J","Q","K"];
     //      there will be a single array in the following order which will indicate the remaining number as an integer
     let cardArray = [];
-    let numDecks = 8;
+    let numDecks = 1;
     let cardTrack = [];
     const cards = ["A",2,3,4,5,6,7,8,9,10,"J","Q","K"];
     let dealerHand = -1;
@@ -17,6 +17,9 @@
         for (let i = 0; i < numDecks*4; i++) {
             cardTrack.push(i);
         }
+
+        // in here to test custom deck
+        // cardArray = [0,2,0,0,0,0,0,1,0,1,0,0,1]
     }
 
     function removeCard(index) {
@@ -26,13 +29,19 @@
 
     function addDealerCard(index) {
         removeCard(index);
-        dealerHand = index;
+        dealerHand = index+1;
         console.log(dealerHand);
     }
 
     function addPlayerCard(index) {
         removeCard(index);
-        playerHand.push(index);
+        playerHand.push(index+1);
+        playerHand = playerHand;
+    }
+
+    function resetPlayerAndDealer() {
+        dealerHand = -1;
+        playerHand = [];
     }
 
     function returnCard(index) {
@@ -53,13 +62,67 @@
     createDeck();
     console.log(cardArray);
     console.log(cardTrack);
+
+
+    /* --- CALCULATE ODDS OF BUSTING --- */
+    let oddsOfBusting;
+    function determineBustOdds(remainingCards, playerHand) {
+        let currentHandValue = 0;
+        for (let i = 0; i < playerHand.length; i++) {
+            if (playerHand[i] > 10) {
+                currentHandValue+=10;
+            } else {
+                currentHandValue+=playerHand[i];
+            }
+        }
+        console.log("Current Hand Value: " + currentHandValue);
+
+        let numberOfRemainingCards = 0;
+        for (let i = 0; i < remainingCards.length; i++) {
+            numberOfRemainingCards+=remainingCards[i];
+        }
+        console.log("Number of remaining cards: " + numberOfRemainingCards);
+
+        let winCount = 0;
+        for (let i = 0; i < 13; i++) {
+            if (i > 9) {
+                if (currentHandValue + 10 <= 21) {
+                    winCount += remainingCards[i];
+                
+                }
+            } else {
+                if (currentHandValue + i + 1 <= 21) {
+                    winCount += remainingCards[i];
+                }
+            }
+        }
+        console.log("Win Count: " + winCount);
+
+        oddsOfBusting = 100 - (winCount / numberOfRemainingCards * 100);
+        console.log("Odds of Busting: " + oddsOfBusting);
+        return oddsOfBusting;
+    }
+
+
+
+    let bestMove = "";
+
+    function returnBestMove() {
+        //let moveObject = decideHitOrStand(cardArray, playerHand, dealerHand);
+        //console.log(moveObject);
+        //bestMove = moveObject;
+        //return bestMove;
+    }
+
 </script>
 
 <h1>Card Calculator</h1>
 <h2>Hand</h2>
 <h3>Dealer</h3>
 <div class="suitRow">
-    <div class="card">{dealerHand}</div>
+    {#if dealerHand != -1}
+        <div class="card">{dealerHand}</div>
+    {/if}
 </div>
 <div class="suitRow">
     <button onclick={() => addDealerCard(0)} class="card">A</button>
@@ -78,6 +141,11 @@
 </div>
 <h3>Player</h3>
 <div class="suitRow">
+    {#each playerHand as playerCard}
+    <div class="card">{playerCard}</div>
+    {/each}
+</div>
+<div class="suitRow">
     <button onclick={() => addPlayerCard(0)} class="card">A</button>
     <button onclick={() => addPlayerCard(1)} class="card">2</button>
     <button onclick={() => addPlayerCard(2)} class="card">3</button>
@@ -91,6 +159,20 @@
     <button onclick={() => addPlayerCard(10)} class="card">J</button>
     <button onclick={() => addPlayerCard(11)} class="card">Q</button>
     <button onclick={() => addPlayerCard(12)} class="card">K</button>
+</div>
+
+<div class="buttonRow">
+    <button onclick={() => determineBustOdds(cardArray, playerHand)}>Calculate Odds</button>
+    <button onclick={resetPlayerAndDealer}>Reset Hands</button>
+</div>
+<div class="results">
+    <p>{returnBestMove()}</p>
+</div>
+
+<div class="oddsPage">
+    {#if oddsOfBusting != null}
+        <p>Odds of Busting: {oddsOfBusting}%</p>
+    {/if}
 </div>
 
 
