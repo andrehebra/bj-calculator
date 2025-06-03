@@ -1,4 +1,40 @@
 <script>
+    /* EVENT LISTNER FOR KEYBOARD SHORTCUT */
+
+    import { onMount, onDestroy } from 'svelte';
+
+    function handleKeydown(event) {
+    const key = event.key.toLowerCase();
+
+    const keyMap = {
+      '1': 0,
+      '2': 1,
+      '3': 2,
+      '4': 3,
+      '5': 4,
+      '6': 5,
+      '7': 6,
+      '8': 7,
+      '9': 8,
+      '0': 9,
+      'a': 10,
+      's': 11,
+      'd': 12
+    };
+
+    if (key in keyMap) {
+      removeCard(keyMap[key]);
+    }
+  }
+
+    
+
+    onMount(() => {
+        window.addEventListener('keydown', handleKeydown);
+    });
+
+    
+
     // tracking of remaining cards
     //      ["A",2,3,4,5,6,7,8,9,10,"J","Q","K"];
     //      there will be a single array in the following order which will indicate the remaining number as an integer
